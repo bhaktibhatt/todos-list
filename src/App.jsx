@@ -4,19 +4,24 @@ import Header from "./Components/Header";
 import {Todos} from "./Components/Todos";
 import {Footer} from "./Components/Footer";
 import {AddTodo} from "./Components/AddTodo"
+import { useEffect } from 'react';
 
 
 function App() {
-  if(localStorage.getItem("todos")){
-    initTodo =  [];
-
+  let initTodo;
+  if(localStorage.getItem("todos")===null){
+    initTodo = [];
+  }
+  else{
+    initTodo = JSON.parse(localStorage.getItem("todos"));
   }
 
-    const onDelete = (todo) => {
-    console.log("I will delete a todo 😈",todo);
-    setTodos(todos.filter((e)=>{
+    const onDelete = (todo) => {  
+      console.log("Deleting todo");
+      setTodos(todos.filter((e)=>{
       return e!==todo;
     }));
+    console.log("deleted",todos)
     localStorage.setItem("todos",JSON.stringify(todos));
   }
   const addTodo = (title,desc) =>{
@@ -31,14 +36,16 @@ function App() {
     const myTodo = {
       sno:sno,
       title:title,
-      desc:desc
+      desc:desc,
     }
-    setTodos([...todos,myTodo])
-    console.log(myTodo)
-      localStorage.setItem("todos",JSON.stringify(todos));
-      
+    setTodos([...todos,myTodo]);
+    console.log(myTodo);      
   }
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(initTodo); 
+  useEffect(() => {
+    localStorage.setItem("todos",JSON.stringify(todos));
+  }, [todos]) //todo is the state array of dependencies
+
   return (
    <>
    <Header title="My todo list" searchBar={true}/>

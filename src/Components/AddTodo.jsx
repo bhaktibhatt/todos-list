@@ -9,7 +9,11 @@ export const AddTodo = (props) => {
         if(!title || !desc){
             alert("Title or Description Cannot be empty");
         }
-        props.addTodo(title,desc);
+        else{
+            props.addTodo(title,desc);
+            setTitle("");
+            setDesc("");
+        }
     }
    //
   return (
@@ -21,7 +25,7 @@ export const AddTodo = (props) => {
             </div>
 
             <div className="mb-3">
-                <input type="text" placeholder='describe your todo here' value={desc} onChange={(e)=>setDesc(e.target.value)}  className="form-control" id="desc"/>
+                <input type="text" placeholder='write the details of your todo here!' value={desc} onChange={(e)=>setDesc(e.target.value)}  className="form-control" id="desc"/>
             </div>
 
             <button type="submit" className="btn bg-success text-light btn-sm">Add Todo</button>
